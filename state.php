@@ -4,13 +4,13 @@
 // Start game state if not already present
 if (!isset($_SESSION['hero_hp'])) {
     // Initialize hero stats and image
-    $_SESSION['hero_hp'] = 50;
+    $_SESSION['hero_hp'] = 30;
     $_SESSION['hero_state'] = 'HemaIdle.png';
 }
 
 if (!isset($_SESSION['monster_hp'])) {
     // Initialize monster stats and image
-    $_SESSION['monster_hp'] = 50;
+    $_SESSION['monster_hp'] = 30;
     $_SESSION['monster_state'] = 'PriseraIdle.png';
 }
 
