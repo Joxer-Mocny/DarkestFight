@@ -1,35 +1,28 @@
 <?php
-// state.php – initializes or continues game session
+// reset.php – safely resets the session and game
 
-// Start game state if not already present
-if (!isset($_SESSION['hero_hp'])) {
-    // Initialize hero stats and image
-    $_SESSION['hero_hp'] = 50;
-    $_SESSION['hero_state'] = 'HemaIdle.png';
+session_start();
+
+// Clear all session variables
+$_SESSION = [];
+
+// Remove session cookie
+if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+    setcookie(
+        session_name(),
+        '',
+        time() - 42000,
+        $params["path"],
+        $params["domain"],
+        $params["secure"],
+        $params["httponly"]
+    );
 }
 
-if (!isset($_SESSION['monster_hp'])) {
-    // Initialize monster stats and image
-    $_SESSION['monster_hp'] = 50;
-    $_SESSION['monster_state'] = 'PriseraIdle.png';
-}
+// Destroy session
+session_destroy();
 
-if (!isset($_SESSION['turn'])) {
-    // Game always starts with player's turn
-    $_SESSION['turn'] = 'player';
-}
-
-if (!isset($_SESSION['log'])) {
-    // Initialize game log to track battle messages
-    $_SESSION['log'] = [];
-}
-
-if (!isset($_SESSION['riposta_ready'])) {
-    // Flag to track riposte preparation (used between turns)
-    $_SESSION['riposta_ready'] = false;
-}
-
-if (!isset($_SESSION['bonus_damage'])) {
-    // Flag to apply bonus damage on next attack if riposte was successful
-    $_SESSION['bonus_damage'] = false;
-}
+// Force redirect with clean session
+header("Location: index.php");
+exit();
