@@ -20,7 +20,7 @@ h1 {
     gap: 30px;
     height: 50vh;
     padding: 10px 0;
-    flex-wrap: nowrap; 
+    flex-wrap: nowrap;
 }
 
 .hero-container,
@@ -42,12 +42,11 @@ h1 {
 
 .hero-img,
 .monster-img {
-    height: 200px;          
+    height: 200px;
     width: auto;
-    object-fit: contain;    
+    object-fit: contain;
     align-self: flex-end;
 }
-
 
 .hit {
     animation: shake 0.3s;
@@ -74,9 +73,9 @@ h1 {
     text-align: left;
     line-height: 1.5;
     font-size: 14px;
-    min-height: 85px;  
+    min-height: 85px;
     max-height: 85px;
-    overflow: hidden;  
+    overflow: hidden;
 }
 
 .controls {
@@ -104,6 +103,29 @@ button:hover {
     margin-top: 20px;
 }
 
+.monster-prepare-active {
+    font-size: 1.8em;
+    color: red;
+    text-shadow: 2px 2px 0 black;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.final-text.you-died {
+    color: red;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 0 black;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.final-text.monster-slain {
+    color: lightgreen;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 0 black;
+    margin-top: 20px;
+    font-weight: bold;
+}
 
 @media (max-width: 768px) {
     .hero-img,
