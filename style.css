@@ -1,0 +1,118 @@
+body {
+    background: url('assets/pozadie.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Courier New', Courier, monospace;
+    color: #f4f4f4;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-top: 20px;
+    font-size: 2.5em;
+}
+
+.battlefield {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 30px;
+    height: 50vh;
+    padding: 10px 0;
+    flex-wrap: nowrap; 
+}
+
+.hero-container,
+.monster-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+}
+
+.hp-label {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.hero-img,
+.monster-img {
+    height: 200px;          
+    width: auto;
+    object-fit: contain;    
+    align-self: flex-end;
+}
+
+
+.hit {
+    animation: shake 0.3s;
+    filter: brightness(0.6) saturate(1.2);
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.log {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    margin: 10px auto;
+    max-width: 90%;
+    width: 700px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    font-family: monospace;
+    text-align: left;
+    line-height: 1.5;
+    font-size: 14px;
+    min-height: 85px;  
+    max-height: 85px;
+    overflow: hidden;  
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+button {
+    font-size: 18px;
+    padding: 10px 25px;
+    margin: 10px;
+    background-color: #222;
+    color: white;
+    border: 2px solid #888;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #444;
+}
+
+.countdown, .victory, .defeat {
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+
+@media (max-width: 768px) {
+    .hero-img,
+    .monster-img {
+        height: 160px;
+    }
+
+    button {
+        width: 80%;
+        font-size: 16px;
+    }
+}
