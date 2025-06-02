@@ -39,7 +39,6 @@ if ($action === 'attack' || $action === 'riposta') {
 
   $_SESSION['awaiting_monster'] = true;
 } elseif ($action === 'monster_turn') {
-  // Monster's delayed turn (triggered by frontend after 3s)
   $monsterAttack = rand(1, 10);
   $heroDefense = rand(1, 10);
 
@@ -49,15 +48,25 @@ if ($action === 'attack' || $action === 'riposta') {
     $_SESSION['monster_state'] = 'PriseraUtok.png';
     $_SESSION['hero_state'] = 'HemaZasah.png';
     $_SESSION['log'][] = "Monster hits Hero for $damage";
+
+    // Ak bol pripravený riposta, zruš ho – bol zasiahnutý
+    if ($_SESSION['riposta_ready'] ?? false) {
+      $_SESSION['riposta_ready'] = false;
+      $_SESSION['log'][] = "Riposte failed – Hero was hit!";
+    }
+
   } else {
     $_SESSION['monster_state'] = 'PriseraUtok.png';
     $_SESSION['hero_state'] = 'HemaIdle.png';
     $_SESSION['log'][] = "Monster missed";
-  }
 
-  if ($_SESSION['riposta_ready'] ?? false) {
-    $_SESSION['riposta_ready'] = false;
-    $_SESSION['bonus_damage'] = true;
+    // Ak bol pripravený riposta, aktivuj bonus
+    if ($_SESSION['riposta_ready'] ?? false) {
+      $_SESSION['bonus_damage'] = true;
+      $_SESSION['log'][] = "Riposte ready! Next attack will be x3 damage.";
+    }
+
+    $_SESSION['riposta_ready'] = false; // V oboch prípadoch resetni
   }
 
   $_SESSION['awaiting_monster'] = false;

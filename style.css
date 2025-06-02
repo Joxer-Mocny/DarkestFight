@@ -6,6 +6,11 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 h1 {
@@ -14,11 +19,11 @@ h1 {
 }
 
 .battlefield {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: flex-end;
     gap: 30px;
-    height: 50vh;
     padding: 10px 0;
     flex-wrap: nowrap;
 }
@@ -79,23 +84,34 @@ h1 {
 }
 
 .controls {
-    margin-top: 20px;
+    margin-top: 10px;
+    padding-bottom: 10px;
 }
 
-button {
-    font-size: 18px;
-    padding: 10px 25px;
-    margin: 10px;
-    background-color: #222;
-    color: white;
-    border: 2px solid #888;
+button, .restart-btn {
+    font-family: 'Georgia', serif;
+    font-size: 20px;
+    padding: 12px 28px;
+    margin: 8px;
+    background-color: #2c0000;
+    color: #f8e0e0;
+    border: 2px solid #8b0000;
     border-radius: 6px;
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: 0.2s ease;
+    text-shadow: 1px 1px 1px black;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
-button:hover {
-    background-color: #444;
+button:hover, .restart-btn:hover {
+    background-color: #8b0000;
+    color: #fff;
+    border-color: #ff2e2e;
+    transform: scale(1.08);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
 }
 
 .countdown, .victory, .defeat {
@@ -103,28 +119,56 @@ button:hover {
     margin-top: 20px;
 }
 
+.monster-prepare {
+    height: 2em;
+    transition: opacity 0.4s ease;
+    opacity: 1;
+}
+
 .monster-prepare-active {
-    font-size: 1.8em;
-    color: red;
-    text-shadow: 2px 2px 0 black;
-    margin-top: 10px;
-    font-weight: bold;
+    font-size: 2.2em;
+    color: #ff1a1a;
+    text-shadow: 3px 3px 0 #000, 0 0 10px #ff0000;
+    margin-top: 20px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Georgia', serif;
+    animation: pulseGlow 1.5s infinite;
+}
+
+@keyframes pulseGlow {
+    0% {
+        text-shadow: 3px 3px 0 #000, 0 0 5px #ff0000;
+    }
+    50% {
+        text-shadow: 3px 3px 0 #000, 0 0 15px #ff0000;
+    }
+    100% {
+        text-shadow: 3px 3px 0 #000, 0 0 5px #ff0000;
+    }
 }
 
 .final-text.you-died {
-    color: red;
-    font-size: 2.5em;
-    text-shadow: 2px 2px 0 black;
-    margin-top: 20px;
-    font-weight: bold;
+    color: #ff0000;
+    font-size: 3em;
+    text-shadow: 3px 3px 0 black;
+    margin-top: 30px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Georgia', serif;
 }
 
 .final-text.monster-slain {
-    color: lightgreen;
-    font-size: 2.5em;
-    text-shadow: 2px 2px 0 black;
-    margin-top: 20px;
-    font-weight: bold;
+    color: #d0ffb7;
+    font-size: 3em;
+    text-shadow: 3px 3px 0 black;
+    margin-top: 30px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Georgia', serif;
 }
 
 @media (max-width: 768px) {

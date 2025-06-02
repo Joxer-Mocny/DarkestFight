@@ -15,6 +15,9 @@ require_once 'state.php';
 <body>
 <h1>Darkest Fight</h1>
 
+<!-- Monster attack notice -->
+<div id="monster-prepare" class="monster-prepare"></div>
+
 <!-- Game Log -->
 <div class="log" id="log">
   <?php foreach (array_slice($_SESSION['log'], -4) as $entry): ?>
@@ -22,10 +25,7 @@ require_once 'state.php';
   <?php endforeach; ?>
 </div>
 
-<!-- Monster is preparing text -->
-<div id="monster-prepare" class="monster-prepare"></div>
-
-<!-- Battlefield with hero and monster -->
+<!-- Battlefield -->
 <div class="battlefield no-wrap">
   <div class="hero-container">
     <div class="hp-label" id="hero-hp">Hero HP: <?= $_SESSION['hero_hp'] ?></div>
@@ -37,15 +37,26 @@ require_once 'state.php';
   </div>
 </div>
 
-<!-- Action Buttons -->
+<!-- Controls -->
 <div class="controls" id="controls">
   <button onclick="sendAction('attack')">Attack</button>
   <button onclick="sendAction('riposta')">Riposte</button>
-  <button onclick="resetGame()">🔁 Restart</button>
+  <button onclick="resetGame()">Restart</button>
 </div>
 
 <script>
 function sendAction(action) {
+  const attackBtn = document.querySelector('button[onclick*="attack"]');
+  const riposteBtn = document.querySelector('button[onclick*="riposta"]');
+
+  // Zablokuj na 3 sekundy, aby sa nedalo klikať
+  attackBtn.disabled = true;
+  riposteBtn.disabled = true;
+  setTimeout(() => {
+    attackBtn.disabled = false;
+    riposteBtn.disabled = false;
+  }, 3000);
+
   fetch('game.php', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -56,10 +67,9 @@ function sendAction(action) {
     updateGameUI(data);
 
     if (data.awaiting_monster) {
-      // Show monster preparing text
       const prepDiv = document.getElementById('monster-prepare');
-      prepDiv.textContent = 'MONSTER IS PREPARING TO ATTACK...';
-      prepDiv.className = 'monster-prepare-active';
+      prepDiv.textContent = 'Monster is preparing to attack...';
+      prepDiv.classList.add('monster-prepare-active');
 
       setTimeout(() => {
         fetch('game.php', {
@@ -71,12 +81,14 @@ function sendAction(action) {
         .then(data => {
           updateGameUI(data);
           prepDiv.textContent = '';
-          prepDiv.className = '';
+          prepDiv.classList.remove('monster-prepare-active');
         });
       }, 3000);
     }
   });
 }
+
+
 
 function resetGame() {
   fetch('reset.php', { method: 'POST' }).then(() => location.reload());
@@ -86,20 +98,12 @@ function updateGameUI(data) {
   const heroImg = document.getElementById('hero-img');
   const monsterImg = document.getElementById('monster-img');
 
-  document.getElementById('hero-hp').textContent = '🧕 Hero HP: ' + data.hero_hp;
-  document.getElementById('monster-hp').textContent = '👹 Monster HP: ' + data.monster_hp;
+  document.getElementById('hero-hp').textContent = ' Hero HP: ' + data.hero_hp;
+  document.getElementById('monster-hp').textContent = ' Monster HP: ' + data.monster_hp;
 
-  // Apply hit class for shake effect
-  if (data.hero_state.includes('Zasah')) {
-    heroImg.classList.add('hit');
-  } else {
-    heroImg.classList.remove('hit');
-  }
-  if (data.monster_state.includes('Zasah')) {
-    monsterImg.classList.add('hit');
-  } else {
-    monsterImg.classList.remove('hit');
-  }
+  // Shake if hit
+  heroImg.classList.toggle('hit', data.hero_state.includes('Zasah'));
+  monsterImg.classList.toggle('hit', data.monster_state.includes('Zasah'));
 
   heroImg.src = 'assets/' + data.hero_state;
   monsterImg.src = 'assets/' + data.monster_state;
@@ -107,13 +111,24 @@ function updateGameUI(data) {
   const logDiv = document.getElementById('log');
   logDiv.innerHTML = data.log.slice(-4).join('<br>');
 
+  const prepDiv = document.getElementById('monster-prepare');
+if (data.awaiting_monster) {
+  const prepDiv = document.getElementById('monster-prepare');
+  prepDiv.textContent = 'Monster is preparing to attack...';
+  prepDiv.classList.add('monster-prepare-active'); 
+} else {
+  prepDiv.textContent = '';
+  prepDiv.classList.remove('monster-prepare-active');
+}
+
+
   if (data.hero_hp <= 0 || data.monster_hp <= 0) {
     const message = data.hero_hp <= 0
-      ? '<div class=\"final-text you-died\">YOU DIED</div>'
-      : '<div class=\"final-text monster-slain\">MONSTER IS SLAIN</div>';
+      ? '<div class="final-text you-died">YOU DIED</div>'
+      : '<div class="final-text monster-slain">MONSTER IS SLAIN</div>';
 
     document.getElementById('controls').innerHTML =
-      message + '<br><button onclick=\"resetGame()\">🔁 Restart</button>';
+      message + '<br><button onclick="resetGame()">Restart</button>';
   }
 }
 </script>
