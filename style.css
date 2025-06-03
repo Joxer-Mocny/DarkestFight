@@ -209,6 +209,8 @@ button:hover, .restart-btn:hover {
     letter-spacing: 1px;
     padding: 0 6px;
   }
+
+
     body {
     overflow-y: auto;
     min-height: 100vh;
