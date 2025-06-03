@@ -172,22 +172,20 @@ button:hover, .restart-btn:hover {
 }
 
 @media (max-width: 768px) {
-  .controls {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 10px;
-    padding: 10px;
+  body {
+    font-size: 14px;
+    padding: 0 5px;
+    overflow-x: hidden;
   }
 
-  button, .restart-btn {
-    flex: 1 1 30%;
-    min-width: 90px;
-    font-size: 14px;
-    padding: 8px 10px;
-    margin: 5px;
+  h1 {
+    font-size: 1.8em;
+  }
+
+  .battlefield {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
   }
 
   .hero-img,
@@ -195,19 +193,49 @@ button:hover, .restart-btn:hover {
     height: 140px;
   }
 
-  h1 {
-    font-size: 1.8em;
+  .hero-container,
+  .monster-container {
+    height: auto;
   }
 
   .log {
+    max-width: 100%;
     font-size: 13px;
     padding: 6px;
+    text-align: left;
+  }
+
+  .controls {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .controls button,
+  .restart-btn {
+    flex: 1 1 30%;
+    min-width: 90px;
+    font-size: 14px;
+    padding: 10px;
+    margin: 5px;
   }
 
   .monster-prepare-active {
     font-size: 1em;
-    letter-spacing: 1px;
     padding: 0 6px;
+    letter-spacing: 1px;
+    line-height: 1.2;
+  }
+
+  .final-text.you-died,
+  .final-text.monster-slain {
+    font-size: 2em;
+    margin: 10px 0;
   }
 }
+
 
